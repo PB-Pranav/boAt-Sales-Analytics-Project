@@ -1,0 +1,66 @@
+table Sales_Channel
+	lineageTag: 42a28e0d-cf31-42a6-a6c4-abb91fc36dee
+
+	column ChannelID
+		dataType: int64
+		formatString: 0
+		lineageTag: fd495add-09b0-4c74-b966-fd229b1ec579
+		summarizeBy: none
+		sourceColumn: ChannelID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ChannelName
+		dataType: string
+		lineageTag: 554c3040-cfe2-44f9-8cb0-e0a3ea9aad93
+		summarizeBy: none
+		sourceColumn: ChannelName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ChannelType
+		dataType: string
+		lineageTag: 3ef00098-c294-4e2e-8492-03b1e941ba25
+		summarizeBy: none
+		sourceColumn: ChannelType
+
+		annotation SummarizationSetBy = Automatic
+
+	column ChannelScope
+		dataType: string
+		lineageTag: 64cc5aa9-8973-4fab-af70-5d60a52e685e
+		summarizeBy: none
+		sourceColumn: ChannelScope
+
+		annotation SummarizationSetBy = Automatic
+
+	column RegionScope
+		dataType: string
+		lineageTag: 2e0c9510-1f20-4290-a01a-80ddedda33b4
+		summarizeBy: none
+		sourceColumn: RegionScope
+
+		annotation SummarizationSetBy = Automatic
+
+	column BaseShare
+		dataType: double
+		lineageTag: 05df632a-9cea-45d0-a6c7-ecbcffe81e4f
+		summarizeBy: none
+		sourceColumn: BaseShare
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Sales_Channel = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\Hello\Downloads\project\BoatSalesProject\data\raw\Sales_Channel.csv"),[Delimiter=",", Columns=6, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ChannelID", Int64.Type}, {"ChannelName", type text}, {"ChannelType", type text}, {"ChannelScope", type text}, {"RegionScope", type text}, {"BaseShare", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

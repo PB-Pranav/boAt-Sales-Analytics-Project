@@ -1,0 +1,126 @@
+table Customer_Details
+	lineageTag: 0df04fff-e78b-4232-b652-74a92549f4af
+
+	measure min = 0
+		formatString: 0
+		lineageTag: fca2bd93-02d7-4270-971f-1ccfbc7c4908
+
+	measure max = 100
+		formatString: 0
+		lineageTag: 0cb87ef2-1ec3-4134-bfe5-b0dc4be495e6
+
+	measure target = 5
+		formatString: 0
+		lineageTag: d3ba9124-6c6d-4cd2-b3df-38675aab3312
+
+	column CustomerID
+		dataType: int64
+		formatString: 0
+		lineageTag: bfa258d8-1e49-4d69-a222-757e4cc8ce0a
+		summarizeBy: none
+		sourceColumn: CustomerID
+
+		annotation SummarizationSetBy = Automatic
+
+	column SignupDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 825db637-e6d4-4b36-8857-d1a13e2c399e
+		summarizeBy: none
+		sourceColumn: SignupDate
+
+		variation Variation
+			isDefault
+			relationship: 8f80a16c-5fd4-4ffd-bac5-0ea439e6907b
+			defaultHierarchy: LocalDateTable_b3dc692c-c80e-4a84-871a-5e389cbc9026.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Gender
+		dataType: string
+		lineageTag: 8bd9067a-8ea1-484f-90e6-abc4fad0e61b
+		summarizeBy: none
+		sourceColumn: Gender
+
+		annotation SummarizationSetBy = Automatic
+
+	column AgeBand
+		dataType: string
+		lineageTag: 1abcf0a6-a70e-4e5f-8b4d-e767030d5e4c
+		summarizeBy: none
+		sourceColumn: AgeBand
+
+		annotation SummarizationSetBy = Automatic
+
+	column Segment
+		dataType: string
+		lineageTag: 589c6832-456f-4962-9576-59ceb62d6649
+		summarizeBy: none
+		sourceColumn: Segment
+
+		annotation SummarizationSetBy = Automatic
+
+	column Tier
+		dataType: string
+		lineageTag: 107db686-f2ae-4392-b2ea-8fe6c6c1e9d0
+		summarizeBy: none
+		sourceColumn: Tier
+
+		annotation SummarizationSetBy = Automatic
+
+	column City
+		dataType: string
+		lineageTag: 615f49e7-952a-4405-9ec0-cf752228f29d
+		summarizeBy: none
+		sourceColumn: City
+
+		annotation SummarizationSetBy = Automatic
+
+	column State
+		dataType: string
+		lineageTag: 80dbb74e-1625-469b-b260-914a6d7142f3
+		summarizeBy: none
+		sourceColumn: State
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: 5a9d8cef-bf7a-49d1-85ab-cf54aa555ccb
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column PreferredChannel
+		dataType: string
+		lineageTag: 5cb43f50-504c-46cc-afd4-b54976b7aa40
+		summarizeBy: none
+		sourceColumn: PreferredChannel
+
+		annotation SummarizationSetBy = Automatic
+
+	column ActivityWeight
+		dataType: double
+		lineageTag: 4d0cb60e-f761-44b3-84f5-70956de3b5ae
+		summarizeBy: sum
+		sourceColumn: ActivityWeight
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Customer_Details = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\Hello\Downloads\project\BoatSalesProject\data\cleaned\Customer_Details.csv"),[Delimiter=",", Columns=11, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"CustomerID", Int64.Type}, {"SignupDate", type date}, {"Gender", type text}, {"AgeBand", type text}, {"Segment", type text}, {"Tier", type text}, {"City", type text}, {"State", type text}, {"Region", type text}, {"PreferredChannel", type text}, {"ActivityWeight", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

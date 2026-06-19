@@ -1,0 +1,64 @@
+table WaterfallStages
+	lineageTag: 43a568ff-e469-4ae5-ae26-7e51c0d9040c
+
+	measure 'Gross MRP Total' = SUMX(Sales_Data, Sales_Data[NetSales] / (1 - Sales_Data[DiscountPct]/100))
+		lineageTag: fc7ddac2-34b0-4c24-b8d4-9d85f8d46074
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total Discount Amount' = [Gross MRP Total] - [Total Revenue]
+		lineageTag: 5573dc1b-087a-4be4-9e81-4f5c44aaa972
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Waterfall Value' =
+			
+			SWITCH(
+			    SELECTEDVALUE(WaterfallStages[Stage]),
+			    "Gross MRP",  [Gross MRP Total],
+			    "Discount",   -[Total Discount Amount],
+			    "Net Sales",  [Total Revenue],
+			    "Profit",     [Total Profit]
+			)
+		lineageTag: 24b092ef-1623-40ca-b1b5-dffec837a2ea
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total quantity' = SUM(Sales_Data[Quantity])
+		formatString: 0
+		lineageTag: 90f02841-cb5d-4781-8ac8-e22fa8dea539
+
+	column Stage
+		lineageTag: 638ecaf0-5c0e-4283-9bc8-c3207e3c6b65
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Stage]
+
+		annotation SummarizationSetBy = Automatic
+
+	column SortOrder
+		formatString: 0
+		lineageTag: 7f6aa5c3-ea50-4d76-be6b-1e2874d6d988
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [SortOrder]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition WaterfallStages = calculated
+		mode: import
+		source =
+				
+				DATATABLE(
+				    "Stage", STRING,
+				    "SortOrder", INTEGER,
+				    {
+				        {"Gross MRP",        1},
+				        {"Discount",         2},
+				        {"Net Sales",        3},
+				        {"Profit",           4}
+				    }
+				)
+
+	annotation PBI_Id = 12e5dc218d824f26b84defdf53532c85
+

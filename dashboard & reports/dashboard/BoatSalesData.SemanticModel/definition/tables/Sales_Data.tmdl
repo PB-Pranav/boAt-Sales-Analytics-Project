@@ -1,0 +1,418 @@
+table Sales_Data
+	lineageTag: 318e10e0-7eb3-467f-9e4d-04b0d91ebe0a
+
+	measure 'Total Revenue' = SUM(Sales_Data[NetSales])
+		lineageTag: a983f973-4604-4a0f-8050-3dcf9d67d8ef
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total Profit' = SUM(Sales_Data[Profit])
+		lineageTag: 849b8e99-a7ef-4462-bf22-663e056c61cc
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total Order' = COUNT(Sales_Data[SalesID])
+		formatString: 0
+		lineageTag: db0353a4-096a-4aed-acf0-d70d30635e4f
+
+	measure 'Avg Order Value' = DIVIDE([Total Revenue],[Total Order],0)
+		lineageTag: cbb1043a-359c-47b4-9df8-326df0639e87
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Profit Margin %' = DIVIDE([Total Profit], [Total Revenue], 0) * 100
+		lineageTag: 0e305538-a1d9-464b-9889-e3057846901a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Cancellation rate %' = DIVIDE(CALCULATE([Total Order],Sales_Data[OrderStatus] ="Cancelled"),[Total Order],0)*100
+		lineageTag: 4dd4c7e2-0a1a-43ab-aef0-5596fb53c471
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Return rate %' = DIVIDE(CALCULATE([Total Order],Sales_Data[OrderStatus] ="Returned"),[Total Order],0)*100
+		lineageTag: ac2f7c16-5e38-47f9-8bcf-6d1c54513071
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Revenue MoM Growth %' =
+			
+			VAR CurrentMonth = [Total Revenue]
+			VAR Previous =
+			    CALCULATE(
+			        [Total Revenue],
+			        DATEADD(DateTable[Date], -1, MONTH)
+			    )
+			RETURN
+			    DIVIDE(CurrentMonth - Previous, Previous, 0) * 100
+		lineageTag: a5dd9247-b835-4b65-8e6e-19fcdba934a1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Revenue YoY Growth %' =
+			
+			DIVIDE(
+			    [Total Revenue] - CALCULATE([Total Revenue], SAMEPERIODLASTYEAR(DateTable[Date])),
+			    CALCULATE([Total Revenue], SAMEPERIODLASTYEAR(DateTable[Date])),
+			    0
+			) * 100
+		lineageTag: c25128bd-131e-4520-ada7-7b0fb9f53eb4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg Delivery Days' = AVERAGE(Sales_Data[DeliveryDays])
+		lineageTag: 33eaa893-5d9b-4efd-bde6-c11f33f98db8
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Festival Revenue' =
+			
+			CALCULATE([Total Revenue], Sales_Data[IsFestivalPeriod] = 1)
+		lineageTag: b526f205-9863-4056-baa7-5a084db1d648
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Non Festival Revenue' =
+			
+			CALCULATE([Total Revenue], Sales_Data[IsFestivalPeriod] = 0)
+		lineageTag: 09a19b17-b78e-4b53-a02f-542aeb44b1b1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SalesID
+		dataType: int64
+		formatString: 0
+		lineageTag: 5ab27fcb-f4be-407f-9d01-18404dafd042
+		summarizeBy: count
+		sourceColumn: SalesID
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderDate
+		dataType: dateTime
+		formatString: d/m/yyyy
+		lineageTag: 4209341a-b22f-47ad-9f8c-d3bb012184c0
+		summarizeBy: none
+		sourceColumn: OrderDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column OrderHour
+		dataType: int64
+		formatString: 0
+		lineageTag: c9c11853-9690-47bc-8f4d-12d574bf190e
+		summarizeBy: sum
+		sourceColumn: OrderHour
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerID
+		dataType: int64
+		formatString: 0
+		lineageTag: d015f2e5-3941-4080-9477-9e8d9b08130d
+		summarizeBy: none
+		sourceColumn: CustomerID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductID
+		dataType: int64
+		formatString: 0
+		lineageTag: db493f60-f54e-461d-9842-de7fdfa9eabd
+		summarizeBy: none
+		sourceColumn: ProductID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ChannelID
+		dataType: int64
+		formatString: 0
+		lineageTag: 206b6c2e-3a94-49b0-ae33-115a9e482bb5
+		summarizeBy: none
+		sourceColumn: ChannelID
+
+		annotation SummarizationSetBy = Automatic
+
+	column DeliveryPartnerID
+		dataType: int64
+		formatString: 0
+		lineageTag: 971a2772-1abd-47f4-a3fc-d3aca4b81a22
+		summarizeBy: none
+		sourceColumn: DeliveryPartnerID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quantity
+		dataType: int64
+		formatString: 0
+		lineageTag: 98c45e51-bbb5-4423-8713-04f340f78bea
+		summarizeBy: sum
+		sourceColumn: Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column GrossMRPValue
+		dataType: int64
+		formatString: 0
+		lineageTag: 7f865ea7-86d7-4205-a61b-dd1e32af3f33
+		summarizeBy: sum
+		sourceColumn: GrossMRPValue
+
+		annotation SummarizationSetBy = Automatic
+
+	column DiscountPct
+		dataType: double
+		lineageTag: 6e2bae1e-688d-4cb7-9757-37b1f097868e
+		summarizeBy: sum
+		sourceColumn: DiscountPct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DiscountAmount
+		dataType: double
+		lineageTag: 9d9a82ee-b3d4-4ffc-985c-2aae90ef5a73
+		summarizeBy: sum
+		sourceColumn: DiscountAmount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SellingPrice
+		dataType: double
+		lineageTag: c0cc4bfb-bf27-486a-9a65-6db7890050eb
+		summarizeBy: sum
+		sourceColumn: SellingPrice
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NetSales
+		dataType: double
+		lineageTag: 55032f15-5a46-4bbb-be43-afd3396cb4f0
+		summarizeBy: sum
+		sourceColumn: NetSales
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column GSTRate
+		dataType: int64
+		formatString: 0
+		lineageTag: 461253d2-9c46-4349-a31b-f64dbbdd1c6d
+		summarizeBy: sum
+		sourceColumn: GSTRate
+
+		annotation SummarizationSetBy = Automatic
+
+	column GSTAmount
+		dataType: double
+		lineageTag: 35d5b5f3-13ba-4df4-b0a1-bc9f888a47b8
+		summarizeBy: sum
+		sourceColumn: GSTAmount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column COGS
+		dataType: double
+		lineageTag: b4b3d269-4a92-405a-80bb-3987393d4e16
+		summarizeBy: sum
+		sourceColumn: COGS
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ShippingCost
+		dataType: double
+		lineageTag: 406d8fb1-8900-4364-97ec-27eb1f842542
+		summarizeBy: sum
+		sourceColumn: ShippingCost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Profit
+		dataType: double
+		lineageTag: 4c756713-213f-4102-9073-626c7eb61f97
+		summarizeBy: sum
+		sourceColumn: Profit
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PaymentMethod
+		dataType: string
+		lineageTag: 20110ebc-878a-428d-879d-f92bb87637ac
+		summarizeBy: none
+		sourceColumn: PaymentMethod
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderStatus
+		dataType: string
+		lineageTag: 3e3ebd48-8ab4-4839-8fd7-b3cefd71a6a2
+		summarizeBy: none
+		sourceColumn: OrderStatus
+
+		annotation SummarizationSetBy = Automatic
+
+	column CancellationReason
+		dataType: string
+		lineageTag: 5ec549f6-3c81-4934-b733-6c4789a0941a
+		summarizeBy: none
+		sourceColumn: CancellationReason
+
+		annotation SummarizationSetBy = Automatic
+
+	column ReturnReason
+		dataType: string
+		lineageTag: 31926aea-3a89-41db-9887-c1c403ff1ec4
+		summarizeBy: none
+		sourceColumn: ReturnReason
+
+		annotation SummarizationSetBy = Automatic
+
+	column DeliveryDays
+		dataType: int64
+		formatString: 0
+		lineageTag: 0ce77611-2729-4e23-96a8-26915a343794
+		summarizeBy: sum
+		sourceColumn: DeliveryDays
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerTier
+		dataType: string
+		lineageTag: a626f5d3-819b-44c6-a79e-707280136819
+		summarizeBy: none
+		sourceColumn: CustomerTier
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerSegment
+		dataType: string
+		lineageTag: 304ddbc0-0a5e-409c-86bc-d9dea8fd7547
+		summarizeBy: none
+		sourceColumn: CustomerSegment
+
+		annotation SummarizationSetBy = Automatic
+
+	column CityTier
+		dataType: string
+		lineageTag: ea7c05f2-4e58-47b2-89ed-5681a3aa4e5b
+		summarizeBy: none
+		sourceColumn: CityTier
+
+		annotation SummarizationSetBy = Automatic
+
+	column ChannelType
+		dataType: string
+		lineageTag: f83eee5b-d44f-41cc-a20d-25893cdca23a
+		summarizeBy: none
+		sourceColumn: ChannelType
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsFestivalPeriod
+		dataType: int64
+		formatString: 0
+		lineageTag: a80feff3-b227-42a4-9b3f-cf767033d072
+		summarizeBy: sum
+		sourceColumn: IsFestivalPeriod
+
+		annotation SummarizationSetBy = Automatic
+
+	column FestivalName
+		dataType: string
+		lineageTag: 0273448f-ca7d-49c0-bccf-a668ac71a283
+		summarizeBy: none
+		sourceColumn: FestivalName
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsWeekend
+		dataType: int64
+		formatString: 0
+		lineageTag: bc3ffe19-b586-432d-9cd3-73db7669117a
+		summarizeBy: sum
+		sourceColumn: IsWeekend
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductCategory
+		dataType: string
+		lineageTag: 49a99796-f462-434c-8744-637444e07ccc
+		summarizeBy: none
+		sourceColumn: ProductCategory
+
+		annotation SummarizationSetBy = Automatic
+
+	column HeroFlag
+		dataType: int64
+		formatString: 0
+		lineageTag: 94d37660-93fe-4ea3-8c90-94f0aa055702
+		summarizeBy: sum
+		sourceColumn: HeroFlag
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 593c2c7a-b906-40b0-8004-db248fed9688
+		summarizeBy: sum
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: int64
+		formatString: 0
+		lineageTag: 37226019-c6c0-47ed-8899-0c181b59ab97
+		summarizeBy: sum
+		sourceColumn: Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quarter
+		dataType: int64
+		formatString: 0
+		lineageTag: 3f5a7f5e-d3d5-43fe-81d2-32eea59ce0cd
+		summarizeBy: sum
+		sourceColumn: Quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthName
+		dataType: string
+		lineageTag: e07dfe6f-08dc-4357-b252-d709a77441c9
+		summarizeBy: none
+		sourceColumn: MonthName
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Sales_Data = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\Hello\Downloads\project\BoatSalesProject\data\cleaned\Sales_Data.csv"),[Delimiter=",", Columns=36, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"SalesID", Int64.Type}, {"OrderDate", type date}, {"OrderHour", Int64.Type}, {"CustomerID", Int64.Type}, {"ProductID", Int64.Type}, {"ChannelID", Int64.Type}, {"DeliveryPartnerID", Int64.Type}, {"Quantity", Int64.Type}, {"GrossMRPValue", Int64.Type}, {"DiscountPct", type number}, {"DiscountAmount", type number}, {"SellingPrice", type number}, {"NetSales", type number}, {"GSTRate", Int64.Type}, {"GSTAmount", type number}, {"COGS", type number}, {"ShippingCost", type number}, {"Profit", type number}, {"PaymentMethod", type text}, {"OrderStatus", type text}, {"CancellationReason", type text}, {"ReturnReason", type text}, {"DeliveryDays", Int64.Type}, {"CustomerTier", type text}, {"CustomerSegment", type text}, {"CityTier", type text}, {"ChannelType", type text}, {"IsFestivalPeriod", Int64.Type}, {"FestivalName", type text}, {"IsWeekend", Int64.Type}, {"ProductCategory", type text}, {"HeroFlag", Int64.Type}, {"Year", Int64.Type}, {"Month", Int64.Type}, {"Quarter", Int64.Type}, {"MonthName", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,112 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 542.4000244140625,
+        "y": 8
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 880,
+            "y": 290
+          },
+          "nodeIndex": "Sales_Data",
+          "nodeLineageTag": "318e10e0-7eb3-467f-9e4d-04b0d91ebe0a",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 542,
+            "y": 280
+          },
+          "nodeIndex": "Customer_Details",
+          "nodeLineageTag": "0df04fff-e78b-4232-b652-74a92549f4af",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 884,
+            "y": 0
+          },
+          "nodeIndex": "Sales_Channel",
+          "nodeLineageTag": "42a28e0d-cf31-42a6-a6c4-abb91fc36dee",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1221.7999572753906,
+            "y": 286
+          },
+          "nodeIndex": "Product_Details",
+          "nodeLineageTag": "fe22ef3f-5fa0-4409-9e81-b18af3a7ca67",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 886.79998779296875,
+            "y": 648
+          },
+          "nodeIndex": "Delivery_Partner_Data",
+          "nodeLineageTag": "b00a4ab4-a103-428e-b58d-189ccce0e322",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 558.79995727539063,
+            "y": 5
+          },
+          "nodeIndex": "DateTable",
+          "nodeLineageTag": "ea2e5ef9-55f0-4201-ac50-4c7b9c396771",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 963.79995727539063,
+            "y": 348
+          },
+          "nodeIndex": "WaterfallStages",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}
