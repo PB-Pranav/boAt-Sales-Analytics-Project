@@ -1,4 +1,4 @@
-# 🚤 Boat Sales Analytics — Performance & Customer Intelligence Dashboard
+#  BoAt Sales Analytics — Performance & Customer Intelligence Dashboard
  
 ![Status](https://img.shields.io/badge/status-completed-brightgreen)
 ![Python](https://img.shields.io/badge/Python-Pandas%20%7C%20EDA-3776AB?logo=python&logoColor=white)
@@ -22,7 +22,6 @@
 - [DAX Measures](#-dax-measures-power-bi)
 - [Dashboard Pages](#-dashboard-pages)
 - [Key Findings & Business Recommendations](#-key-findings--business-recommendations)
-- [How to Explore This Project](#-how-to-explore-this-project)
 - [Full Report](#-full-report)
 - [Author](#-author)
 ---
@@ -51,18 +50,11 @@ The **Boat Sales Analytics** project demonstrates the full modern data analyst s
  
 ## 🖼️ Dashboard Preview
  
-> GitHub can't render a `.pbix` file interactively in the browser — it's a binary file format. To make the dashboard explorable from the README itself, drop PNG/GIF exports of each page into `outputs/` and embed them here, e.g.:
->
-> ```markdown
-> ![Executive Summary](dashboard & reports/powerbi-image/01_excutive_summary.png)
-> ![Channel & Product Analysis](outputs/page2_channel_product.png)
-> ![Customer Intelligence](outputs/page3_customer_intelligence.png)
-> ![Operations & Delivery](outputs/page4_operations_delivery.png)
-> ```
->
-> For a truly *live, clickable* version (not just images), see [How to Explore This Project](#-how-to-explore-this-project) below — publishing to the Power BI Service gives you a shareable interactive link you can drop right under this section.
- 
----
+![Executive Summary](dashboard%20&%20reports/powerbi-image/01_excutive_summary.png)
+![Channel & Product Analysis](dashboard%20&%20reports/powerbi-image/02_channel&product.png)
+![Customer Intelligence](dashboard%20&%20reports/powerbi-image/03_customer&intellegence.png)
+![Operations & Delivery](dashboard%20&%20reports/powerbi-image/04_operation&delivery.png)
+
  
 ## 🛠️ Tech Stack
  
@@ -193,23 +185,6 @@ Avg delivery days by partner (bar) · Cancellation rate (gauge) · Cancellation 
 </details>
 ---
  
-## 🚀 How to Explore This Project
- 
-### Option A — Open the dashboard locally (full interactivity)
-1. Install the free **[Power BI Desktop](https://powerbi.microsoft.com/desktop/)** (Windows only)
-2. Clone this repo:
-```bash
-   git clone https://github.com/<your-username>/<your-repo>.git
-```
-3. Open `powerbi/BoatSalesData.pbix` in Power BI Desktop — all visuals, slicers, and DAX measures are fully interactive.
-### Option B — View it live, no install required
-1. Publish the report from Power BI Desktop: **File → Publish → Publish to web** (or your org's Power BI Service workspace)
-2. Copy the embed/share link
-3. Paste it into this README under [Dashboard Preview](#-dashboard-preview) — viewers can click through filters and slicers directly from the link, no app needed
-4. *(Optional)* Note: GitHub strips `<iframe>` tags from rendered Markdown for security, so the live link works as a clickable **badge/button**, not an inline embed — e.g.:
-```markdown
-   [![Open Live Dashboard](https://img.shields.io/badge/Power%20BI-Open%20Live%20Dashboard-F2C811?logo=powerbi&logoColor=black)](https://your-published-report-link)
-```
  
 ### Option C — Re-run the analysis
 1. `pip install pandas numpy matplotlib seaborn sqlalchemy openpyxl jupyter plotly`
